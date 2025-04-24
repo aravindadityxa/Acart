@@ -5,6 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🛒 Acart - Your Offline Shopping Destination</title>
     <style>
+        /* Login Screen Styles */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .login-btn {
+            padding: 0.8rem;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--secondary);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
         /* CSS Variables for theming */
         :root {
             --primary: #ff9900;
@@ -19,6 +97,7 @@
             --transition: all 0.3s ease;
         }
 
+        /* Rest of your existing CSS... */
         /* Base Styles */
         * {
             margin: 0;
@@ -413,8 +492,42 @@
     </style>
 </head>
 <body>
+    <!-- Login/Signup Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h2 class="login-title">Welcome to Acart</h2>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <p class="toggle-form" id="toggleSignup">Don't have an account? Sign up</p>
+                <p class="error-message" id="errorMessage"></p>
+            </form>
+
+            <form class="login-form" id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <label for="newUsername">Username</label>
+                    <input type="text" id="newUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <button type="submit" class="login-btn">Sign Up</button>
+                <p class="toggle-form" id="toggleLogin">Already have an account? Login</p>
+                <p class="error-message" id="signupErrorMessage"></p>
+            </form>
+        </div>
+    </div>
+
     <!-- Header -->
-    <header>
+    <header style="display: none;">
         <nav class="navbar">
             <div class="logo">🛒 Acart</div>
             <div class="hamburger">☰</div>
@@ -427,7 +540,7 @@
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main style="display: none;">
         <!-- Home Page -->
         <section class="page active" id="home">
             <div class="hero">
@@ -455,7 +568,7 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+    <footer style="display: none;">
         <ul class="footer-links">
             <li><a href="#" data-page="home">Home</a></li>
             <li><a href="#" data-page="products">Products</a></li>
@@ -465,7 +578,94 @@
     </footer>
 
     <script>
-        // DOM Elements
+        // Login/Signup functionality
+        const loginScreen = document.getElementById('loginScreen');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const toggleSignup = document.getElementById('toggleSignup');
+        const toggleLogin = document.getElementById('toggleLogin');
+        const errorMessage = document.getElementById('errorMessage');
+        const signupErrorMessage = document.getElementById('signupErrorMessage');
+        const mainContent = document.querySelector('main');
+        const header = document.querySelector('header');
+        const footer = document.querySelector('footer');
+
+        // Toggle between login and signup forms
+        toggleSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'flex';
+            errorMessage.style.display = 'none';
+        });
+
+        toggleLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+            signupErrorMessage.style.display = 'none';
+        });
+
+        // Handle login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            const storedUser = localStorage.getItem('user');
+            
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                if (user.username === username && user.password === password) {
+                    // Successful login
+                    loginScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    header.style.display = 'block';
+                    footer.style.display = 'block';
+                } else {
+                    // Invalid credentials
+                    errorMessage.textContent = 'Invalid username or password';
+                    errorMessage.style.display = 'block';
+                }
+            } else {
+                // No user exists
+                errorMessage.textContent = 'No user found. Please sign up.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Handle signup
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            
+            if (username && password) {
+                const user = { username, password };
+                localStorage.setItem('user', JSON.stringify(user));
+                
+                // Auto-login after signup
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                header.style.display = 'block';
+                footer.style.display = 'block';
+            } else {
+                signupErrorMessage.textContent = 'Please enter both username and password';
+                signupErrorMessage.style.display = 'block';
+            }
+        });
+
+        // Check if user is already logged in (for page refresh)
+        function checkLoggedIn() {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                header.style.display = 'block';
+                footer.style.display = 'block';
+            }
+        }
+
+        // DOM Elements for the rest of the app
         const pages = document.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('.nav-link');
         const shopNowBtn = document.querySelector('.shop-now');
@@ -526,6 +726,7 @@
 
         // Initialize the app
         function init() {
+            checkLoggedIn();
             renderProducts();
             updateCartCount();
             setupEventListeners();
