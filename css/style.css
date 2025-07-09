@@ -1,0 +1,31 @@
+/* Base styles that are common across all pages */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+}
