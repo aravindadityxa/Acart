@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acart™ - Product</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text: #1f2937;
+            --light: #f9fafb;
+            --gray: #e5e7eb;
+            --dark-gray: #6b7280;
+            --background: #ffffff;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.9;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+        
+        .product-detail {
+            display: flex;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .product-images {
+            flex: 1;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+        
+        .product-brand {
+            font-size: 18px;
+            color: var(--dark-gray);
+            margin: 0 0 16px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .rating-stars {
+            color: #f59e0b;
+            font-size: 18px;
+        }
+        
+        .rating-count {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+        
+        .product-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 16px 0;
+        }
+        
+        .product-description {
+            margin: 24px 0;
+            line-height: 1.6;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gray);
+            background-color: transparent;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .btn-add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .btn-add-to-cart:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .reviews-section {
+            margin-top: 48px;
+        }
+        
+        .reviews-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .review-card {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .review-user {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .review-name {
+            font-weight: 600;
+        }
+        
+        .review-rating {
+            color: #f59e0b;
+            margin-left: auto;
+        }
+        
+        .review-content {
+            line-height: 1.6;
+        }
+        
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            --text: #f9fafb;
+            --light: #1f2937;
+            --gray: #4b5563;
+            --dark-gray: #9ca3af;
+            --background: #111827;
+        }
+        
+        body.dark-mode .main-image {
+            background-color: #1f2937;
+        }
+        
+        body.dark-mode .review-card {
+            background-color: #1f2937;
+        }
+        
+        @media (max-width: 768px) {
+            .product-detail {
+                flex-direction: column;
+                gap: 24px;
+            }
+            
+            .main-image {
+                height: 300px;
+            }
+            
+            .navbar {
+                padding: 16px;
+            }
+            
+            .nav-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Acart™</span>
+        </div>
+        
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="cart.html" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+            <a href="#" id="logout">Logout</a>
+            <button class="dark-mode-toggle" id="darkModeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="product-detail" id="productDetail">
+            <!-- Product details will be loaded here -->
+        </div>
+        
+        <div class="reviews-section">
+            <h2 class="reviews-title">Customer Reviews</h2>
+            <div id="reviewsContainer">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+            
+            // Find the product
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) {
+                window.location.href = 'home.html';
+                return;
+            }
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Display product details
+            const productDetail = document.getElementById('productDetail');
+            const imageUrl = `https://source.unsplash.com/featured/?${product.name.replace(/\s+/g, '-').toLowerCase()}`;
+            const fallbackUrl = `https://dummyimage.com/600x600/cccccc/000000&text=${product.name.split(' ')[0]}`;
+            
+            productDetail.innerHTML = `
+                <div class="product-images">
+                    <img src="${imageUrl}" alt="${product.name}" class="main-image" onerror="this.src='${fallbackUrl}'">
+                </div>
+                <div class="product-info">
+                    <h1 class="product-title">${product.name}</h1>
+                    <p class="product-brand">Brand: ${product.brand}</p>
+                    <div class="product-rating">
+                        <span class="rating-stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                        <span class="rating-count">${product.rating.toFixed(1)}/5 from ${product.reviews} reviews</span>
+                    </div>
+                    <p class="product-price">₹${product.price.toLocaleString('en-IN')}</p>
+                    <p class="product-description">${product.description || 'No description available.'}</p>
+                    
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    
+                    <button class="btn-add-to-cart" data-id="${product.id}">Add to Cart</button>
+                </div>
+            `;
+            
+            // Quantity selector functionality
+            const minusBtn = document.querySelector('.quantity-btn.minus');
+            const plusBtn = document.querySelector('.quantity-btn.plus');
+            const quantityInput = document.querySelector('.quantity-input');
+            
+            minusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                }
+            });
+            
+            plusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                quantityInput.value = value + 1;
+            });
+            
+            // Add to cart functionality
+            document.querySelector('.btn-add-to-cart').addEventListener('click', function() {
+                const quantity = parseInt(quantityInput.value);
+                addToCart(product.id, quantity);
+                updateCartCount();
+                
+                this.textContent = 'Added to Cart';
+                this.style.backgroundColor = '#10b981';
+                setTimeout(() => {
+                    this.textContent = 'Add to Cart';
+                    this.style.backgroundColor = 'var(--primary)';
+                }, 2000);
+            });
+            
+            // Display reviews
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            const sampleReviews = [
+                {
+                    name: 'Rahul Sharma',
+                    rating: 5,
+                    comment: 'Excellent product! Works perfectly and exceeded my expectations. Delivery was fast too.'
+                },
+                {
+                    name: 'Priya Patel',
+                    rating: 4,
+                    comment: 'Very good quality for the price. Only minor issue was the packaging could be better.'
+                },
+                {
+                    name: 'Amit Singh',
+                    rating: 5,
+                    comment: 'Absolutely love it! Would definitely recommend to others looking for this product.'
+                }
+            ];
+            
+            sampleReviews.forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-user">${review.name.charAt(0)}</div>
+                        <div class="review-name">${review.name}</div>
+                        <div class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                    </div>
+                    <div class="review-content">${review.comment}</div>
+                `;
+                
+                reviewsContainer.appendChild(reviewCard);
+            });
+            
+            // Logout functionality
+            document.getElementById('logout').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+            
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = darkModeToggle.querySelector('i');
+            
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeIcon.classList.remove('fa-moon');
+                    darkModeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkModeIcon.classList.remove('fa-sun');
+                    darkModeIcon.classList.add('fa-moon');
+                }
+            });
+        });
+        
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+    </script>
+</body>
+</html>

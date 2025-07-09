@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acart™ - Checkout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text: #1f2937;
+            --light: #f9fafb;
+            --gray: #e5e7eb;
+            --dark-gray: #6b7280;
+            --background: #ffffff;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.9;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 16px;
+            display: flex;
+            gap: 48px;
+        }
+        
+        .checkout-form {
+            flex: 2;
+        }
+        
+        .order-summary {
+            flex: 1;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .order-summary-card {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .order-items {
+            margin-bottom: 24px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .order-item-name {
+            flex: 1;
+        }
+        
+        .order-item-price {
+            font-weight: 500;
+        }
+        
+        .order-total {
+            border-top: 1px solid var(--gray);
+            padding-top: 16px;
+            margin-top: 16px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .btn-place-order {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 24px;
+        }
+        
+        .btn-place-order:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 64px 0;
+            display: none;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        
+        .success-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 16px;
+        }
+        
+        .success-details {
+            margin-bottom: 24px;
+        }
+        
+        .success-details p {
+            margin: 8px 0;
+        }
+        
+        .btn-continue {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-continue:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            --text: #f9fafb;
+            --light: #1f2937;
+            --gray: #4b5563;
+            --dark-gray: #9ca3af;
+            --background: #111827;
+        }
+        
+        body.dark-mode .order-summary-card {
+            background-color: #1f2937;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 32px;
+            }
+            
+            .order-summary-card {
+                position: static;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .navbar {
+                padding: 16px;
+            }
+            
+            .nav-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Acart™</span>
+        </div>
+        
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="cart.html" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+            <a href="#" id="logout">Logout</a>
+            <button class="dark-mode-toggle" id="darkModeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div id="checkoutForm" class="checkout-form">
+            <h2 class="section-title">Shipping Information</h2>
+            
+            <div class="form-group">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" id="name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="tel" id="mobile" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="address" class="form-label">Address</label>
+                <textarea id="address" class="form-control" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pincode" class="form-label">Pincode</label>
+                    <input type="text" id="pincode" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" id="city" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="state" class="form-label">State</label>
+                <input type="text" id="state" class="form-control" required>
+            </div>
+        </div>
+        
+        <div class="order-summary">
+            <div class="order-summary-card" id="orderSummary">
+                <!-- Order summary will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="success-title">Order Placed Successfully!</h2>
+            <div class="success-details" id="orderDetails">
+                <!-- Order details will be loaded here -->
+            </div>
+            <button class="btn-continue" onclick="window.location.href='home.html'">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Load order summary
+            renderOrderSummary();
+            
+            // Set user email if available
+            document.getElementById('email').value = currentUser.email || '';
+            
+            // Place order button
+            document.getElementById('orderSummary').addEventListener('submit', function(e) {
+                e.preventDefault();
+                placeOrder();
+            });
+            
+            // Logout functionality
+            document.getElementById('logout').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+            
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = darkModeToggle.querySelector('i');
+            
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeIcon.classList.remove('fa-moon');
+                    darkModeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkModeIcon.classList.remove('fa-sun');
+                    darkModeIcon.classList.add('fa-moon');
+                }
+            });
+        });
+        
+        function renderOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const orderSummary = document.getElementById('orderSummary');
+            
+            if (cart.length === 0) {
+                window.location.href = 'home.html';
+                return;
+            }
+            
+            let orderItemsHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    const itemTotal = product.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    orderItemsHTML += `
+                        <div class="order-item">
+                            <div class="order-item-name">${product.name} × ${item.quantity}</div>
+                            <div class="order-item-price">₹${itemTotal.toLocaleString('en-IN')}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            const deliveryCharge = subtotal > 1000 ? 0 : 50;
+            const total = subtotal + deliveryCharge;
+            
+            orderSummary.innerHTML = `
+                <h2 class="section-title">Order Summary</h2>
+                <div class="order-items">
+                    ${orderItemsHTML}
+                </div>
+                <div class="order-item">
+                    <div class="order-item-name">Subtotal</div>
+                    <div class="order-item-price">₹${subtotal.toLocaleString('en-IN')}</div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-name">Delivery</div>
+                    <div class="order-item-price">₹${deliveryCharge.toLocaleString('en-IN')}</div>
+                </div>
+                <div class="order-item order-total">
+                    <div>Total</div>
+                    <div>₹${total.toLocaleString('en-IN')}</div>
+                </div>
+                <button class="btn-place-order" id="placeOrderBtn">Place Order</button>
+            `;
+            
+            document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+        }
+        
+        function placeOrder() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+            const address = document.getElementById('address').value;
+            const pincode = document.getElementById('pincode').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            
+            if (!name || !email || !mobile || !address || !pincode || !city || !state) {
+                alert('Please fill in all the required fields');
+                return;
+            }
+            
+            // In a real app, you would send this data to a server
+            const order = {
+                name,
+                email,
+                mobile,
+                address,
+                pincode,
+                city,
+                state,
+                items: JSON.parse(localStorage.getItem('cart')) || [],
+                total: calculateOrderTotal(),
+                date: new Date().toISOString(),
+                orderId: 'AC' + Math.floor(Math.random() * 1000000)
+            };
+            
+            // Save order to localStorage (in a real app, this would be a server call)
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Clear cart
+            localStorage.removeItem('cart');
+            
+            // Show success message
+            document.getElementById('checkoutForm').style.display = 'none';
+            document.querySelector('.order-summary').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Display order details
+            document.getElementById('orderDetails').innerHTML = `
+                <p>Order ID: <strong>${order.orderId}</strong></p>
+                <p>Total Amount: <strong>₹${order.total.toLocaleString('en-IN')}</strong></p>
+                <p>Estimated Delivery: <strong>${new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toDateString()}</strong></p>
+            `;
+            
+            updateCartCount();
+        }
+        
+        function calculateOrderTotal() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            const subtotal = cart.reduce((total, item) => {
+                const product = products.find(p => p.id === item.id);
+                return total + (product ? product.price * item.quantity : 0);
+            }, 0);
+            
+            const deliveryCharge = subtotal > 1000 ? 0 : 50;
+            return subtotal + deliveryCharge;
+        }
+        
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+    </script>
+</body>
+</html>
